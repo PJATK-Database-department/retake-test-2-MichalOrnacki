@@ -40,7 +40,10 @@ namespace ApbdTest2.Controllers
         [HttpPut("{IdAction}")]
         public async Task<IActionResult> UpdateTaskEndDate([FromRoute] int IdAction, [FromBody] DateTime date)
         {
-            if()
+            if(!await _dbService.DoesActionExist(IdAction))
+            {
+                return BadRequest($"Action with id {IdAction} does not exist");
+            }
 
             await _dbService.UpdateEndTime(IdAction, date);
             return NoContent();
