@@ -12,7 +12,12 @@ namespace ApbdTest2.Services
         Task<Firefighter> GetFirefighter();
 
         Task<GetFiretruckResponse> GetFiretruckDetails(int idFiretruck);
+        Task UpdateEndTime(int idAction, DateTime date);
 
         Task<bool> DoesFiretruckExist(int idFiretruck);
+
+        Task<bool> CheckIfDateAssigned(int idAction);
+        Task<bool> CheckDates(int idAction, DateTime date);
+        Task<bool> DoesActionExist(int idAction);
     }
 }

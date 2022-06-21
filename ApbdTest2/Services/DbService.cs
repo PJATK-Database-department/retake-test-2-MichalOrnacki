@@ -59,6 +59,24 @@ namespace ApbdTest2.Services
 
         }
 
+        public async Task UpdateEndTime(int idAction, DateTime date)
+        {
+            var action = await _dbContext.Actions.FirstOrDefaultAsync(a => a.IdAction == idAction);
+            action.EndTime = date;
+            await _dbContext.SaveChangesAsync();
+        }
+        public async Task<bool> DoesActionExist(int idAction)
+        {
+
+        }
+        public async Task<bool> CheckDates(int idAction, DateTime date)
+        {
+
+        }
+        public async Task<bool> CheckIfDateAssigned(int idAction)
+        {
+
+        }
         public async Task<bool> DoesFiretruckExist(int idFiretruck)
         {
             return await _dbContext.Firetrucks.AnyAsync(f => f.IdFireTruck == idFiretruck);

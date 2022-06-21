@@ -37,5 +37,14 @@ namespace ApbdTest2.Controllers
             return Ok(a);
         }
 
+        [HttpPut("{IdAction}")]
+        public async Task<IActionResult> UpdateTaskEndDate([FromRoute] int IdAction, [FromBody] DateTime date)
+        {
+            if()
+
+            await _dbService.UpdateEndTime(IdAction, date);
+            return NoContent();
+        }
+
     }
 }
