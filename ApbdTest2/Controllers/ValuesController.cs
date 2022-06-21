@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ApbdTest2.Services;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,36 +13,29 @@ namespace ApbdTest2.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly IDbService _dbService;
+        public ValuesController(IDbService dbService)
+        {
+            _dbService = dbService;
+        }
         // GET: api/<ValuesController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpGet("ConnectionTest")]
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            var a = await _dbService.GetFirefighter();
+            return Ok(a);
+        }
+        [HttpGet("{IdFiretruck}")]
+        public async Task<IActionResult> GetFiretruckDetails([FromRoute] int IdFiretruck)
+        {
+            if (!await _dbService.DoesFiretruckExist(IdFiretruck))
+            {
+                return BadRequest($"Firetruck with id {IdFiretruck} does not exist");
+            }
+
+            var a = await _dbService.GetFiretruckDetails(IdFiretruck);
+            return Ok(a);
         }
 
-        // GET api/<ValuesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<ValuesController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<ValuesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<ValuesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
