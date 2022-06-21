@@ -37,12 +37,16 @@ namespace ApbdTest2.Controllers
             return Ok(a);
         }
 
-        [HttpPut("{IdAction}")]
+        [HttpPost("{IdAction}")]
         public async Task<IActionResult> UpdateTaskEndDate([FromRoute] int IdAction, [FromBody] DateTime date)
         {
             if(!await _dbService.DoesActionExist(IdAction))
             {
                 return BadRequest($"Action with id {IdAction} does not exist");
+            }
+            if(await _dbService.CheckIfDateAssigned(IdAction))
+            {
+                return BadRequest("Date already assigned");
             }
 
             await _dbService.UpdateEndTime(IdAction, date);
